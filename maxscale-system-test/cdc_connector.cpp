@@ -119,7 +119,7 @@ bool Connection::createConnection()
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to create socket: ";
-            m_error += strerror_r(errno, err, sizeof (err));
+            m_error += mxs_strerror(errno));
         }
 
         m_fd = fd;
@@ -128,7 +128,7 @@ bool Connection::createConnection()
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to connect: ";
-            m_error += strerror_r(errno, err, sizeof (err));
+            m_error += mxs_strerror(errno));
         }
         else if (doAuth())
         {
@@ -167,7 +167,7 @@ bool Connection::requestData(const std::string& table, const std::string& gtid)
         rval = false;
         char err[ERRBUF_SIZE];
         m_error = "Failed to write request: ";
-        m_error += strerror_r(errno, err, sizeof (err));
+        m_error += mxs_strerror(errno));
     }
 
     if (rval)
@@ -193,7 +193,7 @@ bool Connection::readRow(std::string& dest)
             rval = false;
             char err[ERRBUF_SIZE];
             m_error = "Failed to read row: ";
-            m_error += strerror_r(errno, err, sizeof (err));
+            m_error += mxs_strerror(errno));
             break;
         }
 
@@ -232,7 +232,7 @@ bool Connection::doAuth()
     {
         char err[ERRBUF_SIZE];
         m_error = "Failed to write authentication data: ";
-        m_error += strerror_r(errno, err, sizeof (err));
+        m_error += mxs_strerror(errno));
     }
     else
     {
@@ -244,7 +244,7 @@ bool Connection::doAuth()
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to read authentication response: ";
-            m_error += strerror_r(errno, err, sizeof (err));
+            m_error += mxs_strerror(errno));
         }
         else if (memcmp(buf, OK_RESPONSE, sizeof (OK_RESPONSE) - 1) != 0)
         {
@@ -284,7 +284,7 @@ bool Connection::doRegistration()
     {
         char err[ERRBUF_SIZE];
         m_error = "Failed to write registration message: ";
-        m_error += strerror_r(errno, err, sizeof (err));
+        m_error += mxs_strerror(errno));
     }
     else
     {
@@ -296,7 +296,7 @@ bool Connection::doRegistration()
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to read registration response: ";
-            m_error += strerror_r(errno, err, sizeof (err));
+            m_error += mxs_strerror(errno));
         }
         else if (memcmp(buf, OK_RESPONSE, sizeof (OK_RESPONSE) - 1) != 0)
         {

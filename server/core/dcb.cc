@@ -3053,7 +3053,7 @@ static uint32_t dcb_process_poll_events(DCB *dcb, uint32_t events)
                       "dcb %p, fd %i",
                       pthread_self(),
                       eno,
-                      strerror_r(eno, errbuf, sizeof(errbuf)),
+                      mxs_strerror(eno),
                       dcb,
                       dcb->fd);
         }
@@ -3112,7 +3112,7 @@ static uint32_t dcb_process_poll_events(DCB *dcb, uint32_t events)
                       "EPOLLERR due %d, %s.",
                       pthread_self(),
                       eno,
-                      strerror_r(eno, errbuf, sizeof(errbuf)));
+                      mxs_strerror(eno));
         }
         rc |= MXS_POLL_ERROR;
 
@@ -3134,7 +3134,7 @@ static uint32_t dcb_process_poll_events(DCB *dcb, uint32_t events)
                   dcb,
                   dcb->fd,
                   eno,
-                  strerror_r(eno, errbuf, sizeof(errbuf)));
+                  mxs_strerror(eno));
         rc |= MXS_POLL_HUP;
         if ((dcb->flags & DCBF_HUNG) == 0)
         {
@@ -3160,7 +3160,7 @@ static uint32_t dcb_process_poll_events(DCB *dcb, uint32_t events)
                   dcb,
                   dcb->fd,
                   eno,
-                  strerror_r(eno, errbuf, sizeof(errbuf)));
+                  mxs_strerror(eno));
         rc |= MXS_POLL_HUP;
 
         if ((dcb->flags & DCBF_HUNG) == 0)

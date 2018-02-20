@@ -368,7 +368,7 @@ int main(int argc, char** argv)
         fprintf(stderr,
                 "Failed to access the working directory due %d, %s\n",
                 errno,
-                strerror_r(errno, errbuf, sizeof(errbuf)));
+                mxs_strerror(errno));
         ss_dassert(false);
     }
     else

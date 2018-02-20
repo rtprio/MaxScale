@@ -218,7 +218,8 @@ bool Connection::connect(const std::string& table, const std::string& gtid)
             m_error = "Invalid address (";
             m_error += m_address;
             m_error += "): ";
-            m_error += strerror_r(errno, err, sizeof(err));
+            strerror_r(errno, err, sizeof(err));
+            m_error += err;
             return false;
         }
 
@@ -234,7 +235,8 @@ bool Connection::connect(const std::string& table, const std::string& gtid)
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to create socket: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+            strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
             return false;
         }
 
@@ -245,14 +247,16 @@ bool Connection::connect(const std::string& table, const std::string& gtid)
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to connect: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+            strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
         }
         else if ((fl = fcntl(fd, F_GETFL, 0)) == -1 ||
                  fcntl(fd, F_SETFL, fl | O_NONBLOCK) == -1)
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to set socket non-blocking: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+            strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
         }
         else
         {
@@ -274,7 +278,8 @@ bool Connection::connect(const std::string& table, const std::string& gtid)
                 {
                     char err[ERRBUF_SIZE];
                     m_error = "Failed to write request: ";
-                    m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
                 }
                 else if ((m_first_row = read()))
                 {
@@ -447,7 +452,9 @@ bool Connection::do_auth()
     {
         char err[ERRBUF_SIZE];
         m_error = "Failed to write authentication data: ";
-        m_error += rc == -1 ? strerror_r(errno, err, sizeof(err)) : "Write timeout";
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
+        m_error += rc == -1 ? err : "Write timeout";
     }
     else
     {
@@ -459,7 +466,8 @@ bool Connection::do_auth()
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to read authentication response: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
         }
         else if (memcmp(buf, OK_RESPONSE, sizeof(OK_RESPONSE) - 1) != 0)
         {
@@ -488,7 +496,8 @@ bool Connection::do_registration()
     {
         char err[ERRBUF_SIZE];
         m_error = "Failed to write registration message: ";
-        m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
     }
     else
     {
@@ -500,7 +509,8 @@ bool Connection::do_registration()
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to read registration response: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
         }
         else if (memcmp(buf, OK_RESPONSE, sizeof(OK_RESPONSE) - 1) != 0)
         {
@@ -556,7 +566,8 @@ bool Connection::read_row(std::string& dest)
             rval = false;
             char err[ERRBUF_SIZE];
             m_error = "Failed to read row: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
             break;
         }
         else if (rc == 0)
@@ -655,7 +666,8 @@ int Connection::wait_for_event(short events)
     {
         char err[ERRBUF_SIZE];
         m_error = "Failed to wait for event: ";
-        m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
     }
 
     return rc;
@@ -678,7 +690,8 @@ int Connection::nointr_read(void *dest, size_t size)
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to read data: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
             n_bytes = -1;
         }
         else if (rc > 0)
@@ -707,7 +720,8 @@ int Connection::nointr_write(const void *src, size_t size)
         {
             char err[ERRBUF_SIZE];
             m_error = "Failed to write data: ";
-            m_error += strerror_r(errno, err, sizeof(err));
+ strerror_r(errno, err, sizeof(err));                                                                                                                                                                                                                                                                                                                
+            m_error += err;                              
             n_bytes = -1;
         }
         else if (rc > 0)

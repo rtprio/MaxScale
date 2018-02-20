@@ -1998,7 +1998,7 @@ int main(int argc, char **argv)
         {
             char errbuf[MXS_STRERROR_BUFLEN];
             MXS_ERROR("Cannot create data directory '%s': %d %s\n",
-                      datadir, errno, strerror_r(errno, errbuf, sizeof(errbuf)));
+                      datadir, errno, mxs_strerror(errno));
             goto return_main;
         }
     }

@@ -58,7 +58,7 @@
  * Define intended for use with strerror.
  *
  * char errbuf[MXS_STRERROR_BUFLEN];
- * strerror_r(errno, errbuf, sizeof(errbuf))
+ * mxs_strerror(errno)
  */
 #define MXS_STRERROR_BUFLEN 512
 
